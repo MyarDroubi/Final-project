@@ -1,0 +1,225 @@
+/* General reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f4f4f9;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1b4b6d;
+  padding: 1rem 8%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar h1 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.menu a {
+  margin: 0 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #ff7f00;
+}
+
+.navbar-button {
+  background-color: #ff7f00;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.navbar-button:hover {
+  background-color: #e67500;
+}
+
+/* Hero section */
+.kropp-upp {
+  text-align: center;
+  padding: 5rem 8%;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+}
+
+.kropp-upp h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.kropp-upp p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+.kropp-upp a {
+  display: inline-block;
+  background-color: #ff7f00;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.kropp-upp a:hover {
+  background-color: #e67500;
+}
+
+/* Image section */
+.image-section img {
+  width: 100vw;
+  height: 400px;
+  object-fit: cover;
+}
+
+.kropp-mitten {
+  text-align: center;
+  padding: 4rem 8%;
+}
+
+.kropp-mitten h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.kropp-mitten p {
+  font-size: 1.2rem;
+  font-weight: 300;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+.kropp-nere {
+  background-color: #b07c62;
+  text-align: center;
+  padding: 4rem 8%;
+}
+
+.kropp-nere h2 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.kropp-nere p {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 300;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  background-color: #1b4b6d;
+  color: white;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+footer p {
+  font-size: 1rem;
+}
+
+/*------------------------ Inloggning ---------------------------------------*/
+/* Allmän styling för body */
+.Inlog_kroppen {
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Sektionen som omsluter formuläret */
+.login-section {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Rubrik för sektionen */
+h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Formuläret */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Etiketter (labels) */
+label {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Input-fält */
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Knappen för att logga in */
+button {
+  background: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Hover-effekt på knappen */
+button:hover {
+  background: #45a049;
+}
+
+
