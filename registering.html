@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrering</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="mycss.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <h1>Livechat</h1>
+      <div class="menu">
+        <a href="Index.html">Introduktion</a>
+        <a href="Livechats.html">Livechats</a>
+        <a href="Kontakt.html">Kontakt</a>
+        <a href="Om_oss.html">Om oss</a>
+      </div>
+      <a href="Inloggning.html" class="navbar-button">Logga in</a>
+    </nav>
+
+    <div class="Inlog_kroppen">
+      <section class="login-section">
+        <h2>Registrera dig</h2>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="reg-username">Användarnamn:</label>
+            <input type="text" id="reg-username" name="reg-username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-email">E-post:</label>
+            <input type="email" id="reg-email" name="reg-email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="reg-password">Lösenord:</label>
+            <input
+              type="password"
+              id="reg-password"
+              name="reg-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="login-button">Registrera</button>
+        </form>
+        <p>
+          Har du redan ett konto? <a href="Inloggning.html">Logga in här</a>
+        </p>
+      </section>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Livechat. Alla rättigheter förbehållna.</p>
+    </footer>
+
+    <script src="register.js"></script>
+  </body>
+</html>
