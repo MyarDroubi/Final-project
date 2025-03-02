@@ -1,0 +1,49 @@
+<!-- HTML FILE -->
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% block content %}
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livechat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mycss.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>Livechat</h1>
+        <div class="menu">
+            <a href="Index.html">Introduktion</a>
+            <a href="Livechat.html">Livechats</a>
+            <a href="Kontakt.html">Kontakt</a>
+            <a href="Om_oss.html">Om oss</a>
+        </div>
+        <a href="Inloggning.html" class="navbar-button">Logga in</a>
+    </nav>
+
+<form method = "post">
+    <h1>Enter The Chat room</h1>
+    <div>
+        <label>Name:</label>
+        <input type="text" placeholder="Pick a name!" name="name" value="{{name}}"/>
+    </div>
+    <div class="join">
+        <input type="text" placeholder="Room code" name="code" value="{{code}}"/>
+        <button type="submit" name="join">Join a Room</button>
+    </div>
+    <button type="submit" name="create" class="create-btn">Create a Room</button>
+    {% if error %}
+    <ul>
+        <li>{{error}}</li>
+    </ul>
+    {% endif %}
+</form>
+
+{% endblock %}
+</body>
+
+
+</html>
