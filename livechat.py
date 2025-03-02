@@ -19,10 +19,6 @@ def generate_unique_code(Length):
         if code not in rooms:
             break
     return code
-        
-
-
-
 
 @app.route("/", methods = ["POST", "GET"])
 def home():
