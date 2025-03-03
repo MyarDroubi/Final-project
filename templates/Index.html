@@ -5,17 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livechat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="mycss.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mycss.css') }}"/>
 </head>
 <body>
     <nav class="navbar">
         <h1>Livechat</h1>
         <div class="menu">
-            <a href="Index.html">Introduktion</a>
-            <a href="Livechats.html">Livechats</a>
-            <a href="Kontakt.html">Kontakt</a>
-            <a href="Om_oss.html">Om oss</a>
+            <a href="{{ url_for('index') }}">Introduktion</a>
+            <a href="{{ url_for('home') }}">Livechat</a>
+            <a href="{{ url_for('om_oss') }}">Om oss</a>
         </div>
         <a href="Inloggning.html" class="navbar-button">Logga in</a>
     </nav>

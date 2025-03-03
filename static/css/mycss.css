@@ -1,14 +1,24 @@
-/* General reset */
+/* General reset and base styles */
+:root {
+  --primary-color: #1b4b6d;
+  --secondary-color: #ff7f00;
+  --background-color: #f4f4f9;
+  --text-color: #333;
+  --border-radius: 10px;
+  --padding: 10px;
+  --font-family: 'Poppins', sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-family);
 }
 
 body {
-  background-color: #f4f4f9;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
   overflow-x: hidden;
 }
 
@@ -17,7 +27,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1b4b6d;
+  background-color: var(--primary-color);
   padding: 1rem 8%;
   position: sticky;
   top: 0;
@@ -40,11 +50,11 @@ body {
 }
 
 .menu a:hover {
-  color: #ff7f00;
+  color: var(--secondary-color);
 }
 
 .navbar-button {
-  background-color: #ff7f00;
+  background-color: var(--secondary-color);
   color: white;
   padding: 0.5rem 1.5rem;
   border-radius: 30px;
@@ -80,7 +90,7 @@ body {
 
 .kropp-upp a {
   display: inline-block;
-  background-color: #ff7f00;
+  background-color: var(--secondary-color);
   color: white;
   padding: 0.8rem 2rem;
   border-radius: 30px;
@@ -140,7 +150,7 @@ body {
 /* Footer */
 footer {
   text-align: center;
-  background-color: #1b4b6d;
+  background-color: var(--primary-color);
   color: white;
   padding: 2rem 0;
   margin-top: 3rem;
@@ -151,7 +161,6 @@ footer p {
 }
 
 /*------------------------ Inloggning ---------------------------------------*/
-/* Allmän styling för body */
 .Inlog_kroppen {
   font-family: Arial, sans-serif;
   background: #f0f0f0;
@@ -162,31 +171,27 @@ footer p {
   margin: 0;
 }
 
-/* Sektionen som omsluter formuläret */
 .login-section {
   background: white;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   padding: 20px;
   width: 300px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* Rubrik för sektionen */
-h2 {
+.login-section h2 {
   font-size: 20px;
   margin-bottom: 15px;
-  color: #333;
+  color: var(--text-color);
 }
 
-/* Formuläret */
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--padding);
 }
 
-/* Etiketter (labels) */
 label {
   font-weight: bold;
   font-size: 14px;
@@ -196,30 +201,97 @@ label {
   color: #555;
 }
 
-/* Input-fält */
 input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   font-size: 14px;
 }
 
-/* Knappen för att logga in */
 button {
   background: #4caf50;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   color: white;
-  padding: 10px;
+  padding: var(--padding);
   font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: var(--padding);
+  transition: background-color 0.3s;
 }
 
-/* Hover-effekt på knappen */
 button:hover {
   background: #45a049;
+}
+
+/*------------------------ Chat ---------------------------------------*/
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--padding);
+}
+
+.join {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.create-btn {
+  width: 100%;
+}
+
+.message-box {
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: whitesmoke;
+  height: 88vh;
+  display: flex;
+  flex-direction: column;
+  width: 120vh;
+  align-items: stretch;
+}
+
+.messages {
+  overflow-y: scroll;
+  flex: 1;
+  width: 100%;
+}
+
+.input {
+  padding: var(--padding);
+  display: flex;
+}
+
+h2 {
+  text-align: center;
+}
+
+#message {
+  flex: 1;
+}
+
+.text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: var(--padding);
+  padding-right: var(--padding);
+}
+
+.muted {
+  font-size: 10px;
+  color: darkgray;
 }
 
 

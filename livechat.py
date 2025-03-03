@@ -1,26 +1,47 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random #för att skapa room-nyckel. Vi behöver inte den så tar bort i slutet. 
-from string import ascii_uppercase #för att skapa olika alphabet. Tar bort i slutet. 
+import random
+from string import ascii_uppercase
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "THISISACODE"  #detta är ett lösenord som man ger. 
+app.config["SECRET_KEY"] = "THISISACODE"
 socketio = SocketIO(app)
-
 
 rooms = {}
 
-def generate_unique_code(Length):
+def generate_unique_code(length):
     while True:
         code = ""
-        for _ in range (Length):
-            code +=random.choice(ascii_uppercase)
+        for _ in range(length):
+            code += random.choice(ascii_uppercase)
         
         if code not in rooms:
             break
     return code
 
-@app.route("/", methods = ["POST", "GET"])
+# Routes för vanliga webbsidor
+@app.route('/')
+def index():
+    return render_template('Index.html')
+
+@app.route('/livechats')
+def livechats():
+    return render_template('Livechats.html')
+
+@app.route('/kontakt')
+def kontakt():
+    return render_template('Kontakt.html')
+
+@app.route('/om_oss')
+def om_oss():
+    return render_template('Om_oss.html')
+
+@app.route('/inloggning')
+def inloggning():
+    return render_template('Inloggning.html')
+
+@app.route("/home", methods=["POST", "GET"])
+
 def home():
     session.clear()
     if request.method == "POST":

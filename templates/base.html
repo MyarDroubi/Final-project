@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Live chat</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
-        crossorigin="anonymous"> <!--Det här är en biblitek som vi måste ha för java för socket-->
-
-        </script>
-    </head>
-    <body>
-        <div class = "content">{% block content %} 
-            {% endblock %}
-            
-
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livechat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mycss.css') }}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Livechat</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Introduktion</a>
+            <a href="{{ url_for('home') }}">Livechat</a>
+            <a href="{{ url_for('om_oss') }}">Om oss</a>
         </div>
-    </body>
-    
+        <a href="{{ url_for('inloggning') }}" class="navbar-button">Logga in</a>
+    </nav>
 
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Livechat. Alla rättigheter förbehållna.</p>
+    </footer>
+</body>
 </html>
