@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form method = "post">
-    <h1>Enter The Chat room</h1>
+<form method="post">
+    <h1>Enter The Chat Room</h1>
     <div>
         <label>Name:</label>
         <input type="text" placeholder="Pick a name!" name="name" value="{{name}}"/>
+        <input type="text" placeholder="Pick a Subject!" name="subject" value="{{subject}}"/>
     </div>
     <div class="join">
         <input type="text" placeholder="Room code" name="code" value="{{code}}"/>
@@ -18,5 +19,7 @@
     </ul>
     {% endif %}
 </form>
+
+<!-- Visa alla aktiva rum -->
 
 {% endblock %}

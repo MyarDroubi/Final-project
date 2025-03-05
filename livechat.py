@@ -47,25 +47,27 @@ def home():
     if request.method == "POST":
         name = request.form.get("name")
         code = request.form.get("code") #kan tas bort
+        subject = request.form.get("subject")
         join = request.form.get("join", False)
         create = request.form.get("create", False)
 
-        if not name:
-            return render_template("home.html", error="Please enter a name!" , code=code, name=name)
+        if not name or not subject:
+            return render_template("home.html", error="Please enter a name!" , code=code, name=name, subject = subject)
         
         if join != False and not code:
-            return render_template("home.html", error="Please enter a room Code", code=code, name=name) #ta bort om vi inte behöver
+            return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject = subject) #ta bort om vi inte behöver
 
         room = code
         if create != False:
             room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": []}
         elif code not in rooms:
-            return render_template("home.html", error="Room does not exist" , code=code, name=name)
+            return render_template("home.html", error="Room does not exist" , code=code, name=name, subject = subject)
         
 
         session["room"] = room  #tillfälligt lagrar användaren data och vi kan manipluera ochså. 
         session ["name"] = name
+        session ["subject"] = subject
         return redirect(url_for("room"))
 
 
@@ -74,9 +76,14 @@ def home():
 @app.route("/room")
 def room():
     room = session.get("room")
-    if room is None or session.get("name") is None or room not in rooms:
+    name = session.get("name")
+    subject = session.get("subject")
+
+    if room is None or name is None or room not in rooms or subject is None:
         return redirect(url_for("home"))
-    return render_template("room.html", code=room, messages = rooms[room]["messages"])
+
+    return render_template("room.html", code=room, messages=rooms[room]["messages"], name=name, subject=subject)
+
 
 @socketio.on("message")
 def message(data):
@@ -84,27 +91,33 @@ def message(data):
     if room not in rooms:
         return
     content = {
-        "name" : session.get("name"),
-        "message" : data["data"]
+        "name": session.get("name"),
+        "subject": session.get("subject"),  # Lägg till subject
+        "message": data["data"]
     }
     send(content, to=room)
     rooms[room]["messages"].append(content)
-    print(f"{session.get('name')} said: {data['data']} ")
+    print(f"{session.get('name')} (Subject: {session.get('subject')}) said: {data['data']}")
 
 
-@socketio.on("connect") ##vi lyssnar från script i room.html och connectar värje room till rätt room
-def connect(auth):  ##vi vet vilket room och namn dem har för att lägga dem i samma room
+
+@socketio.on("connect")
+def connect(auth):
     room = session.get("room")
     name = session.get("name")
-    if not room or not name:
+    subject = session.get("subject")
+
+    if not room or not name or not subject:
         return
     if room not in rooms:
         leave_room(room)
         return
-    join_room(room)  #joinar room
-    send({"name": name, "message": "has entered the room"}, to=room) #skcikar meddelande till room
-    rooms[room]["members"] +=1  #hur många som finns
-    print(F"{name} joined room {room}")
+
+    join_room(room)
+    send({"name": name, "subject": subject, "message": "has entered the room"}, to=room)  # Skicka även subject
+    rooms[room]["members"] += 1
+    print(F"{name} (Subject: {subject}) joined room {room}")
+
 
 @socketio.on("disconnect")
 def disconeect():
@@ -123,5 +136,6 @@ def disconeect():
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
+
 
 
