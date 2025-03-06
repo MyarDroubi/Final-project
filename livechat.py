@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
 import random
+import json
+import os
 from string import ascii_uppercase
 
 app = Flask(__name__)
@@ -8,6 +10,26 @@ app.config["SECRET_KEY"] = "THISISACODE"
 socketio = SocketIO(app)
 
 rooms = {}
+
+# File to store rooms data
+ROOMS_FILE = "rooms.json"
+
+def save_rooms_to_file():
+    """Save the rooms dictionary to a file."""
+    with open(ROOMS_FILE, "w") as f:
+        json.dump(rooms, f)
+
+def load_rooms_from_file():
+    """Load the rooms dictionary from a file."""
+    global rooms
+    try:
+        with open(ROOMS_FILE, "r") as f:
+            rooms = json.load(f)
+    except FileNotFoundError:
+        rooms = {}  # If the file doesn't exist, start with an empty dictionary
+
+load_rooms_from_file()
+
 
 def generate_unique_code(length):
     while True:
@@ -41,35 +63,33 @@ def inloggning():
     return render_template('Inloggning.html')
 
 @app.route("/home", methods=["POST", "GET"])
-
 def home():
     session.clear()
     if request.method == "POST":
         name = request.form.get("name")
-        code = request.form.get("code") #kan tas bort
+        code = request.form.get("code")
         subject = request.form.get("subject")
         join = request.form.get("join", False)
         create = request.form.get("create", False)
 
-        if not name or not subject:
-            return render_template("home.html", error="Please enter a name!" , code=code, name=name, subject = subject)
-        
+        if create and not subject:
+            return render_template("home.html", error="Please enter a Subject!", code=code, name=name, subject=subject)
+
         if join != False and not code:
-            return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject = subject) #ta bort om vi inte behöver
+            return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject=subject)
 
         room = code
         if create != False:
             room = generate_unique_code(4)
-            rooms[room] = {"members": 0, "messages": []}
+            rooms[room] = {"members": 0, "messages": [], "subject": subject, "creator": name}
+            save_rooms_to_file()  # Save rooms to file after creating a new room
         elif code not in rooms:
-            return render_template("home.html", error="Room does not exist" , code=code, name=name, subject = subject)
-        
+            return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject)
 
-        session["room"] = room  #tillfälligt lagrar användaren data och vi kan manipluera ochså. 
-        session ["name"] = name
-        session ["subject"] = subject
+        session["room"] = room
+        session["name"] = name
+        session["subject"] = subject
         return redirect(url_for("room"))
-
 
     return render_template("home.html")
     
@@ -100,27 +120,30 @@ def message(data):
     print(f"{session.get('name')} (Subject: {session.get('subject')}) said: {data['data']}")
 
 
-
 @socketio.on("connect")
 def connect(auth):
     room = session.get("room")
     name = session.get("name")
-    subject = session.get("subject")
+    subject = session.get("subject")  # Tillagt
 
-    if not room or not name or not subject:
+    if not room or not name:
         return
     if room not in rooms:
         leave_room(room)
         return
-
     join_room(room)
-    send({"name": name, "subject": subject, "message": "has entered the room"}, to=room)  # Skicka även subject
+    send({"name": name, "subject": subject, "message": "has entered the room"}, to=room)  # subject tillagt
     rooms[room]["members"] += 1
-    print(F"{name} (Subject: {subject}) joined room {room}")
+    print(F"{name} (Subject: {subject}) joined room {room}")  # subject tillagt
 
+@app.route("/show_rooms")
+def show_rooms():
+    # Load rooms from file to ensure we have the latest data
+    load_rooms_from_file()
+    return render_template("show_rooms.html", rooms=rooms)
 
 @socketio.on("disconnect")
-def disconeect():
+def disconnect():
     room = session.get("room")
     name = session.get("name")
     leave_room(room)
@@ -136,6 +159,4 @@ def disconeect():
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
-
-
 
