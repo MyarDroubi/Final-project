@@ -4,14 +4,19 @@ import random
 import json
 import os
 from string import ascii_uppercase
+from huggingface_hub import InferenceClient  # Add this import
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "THISISACODE"
 socketio = SocketIO(app)
 
-rooms = {}
+# Initialize the bot client
+bot_client = InferenceClient(
+    provider="novita",
+    api_key="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"
+)
 
-# File to store rooms data
+rooms = {}
 ROOMS_FILE = "rooms.json"
 
 def save_rooms_to_file():
@@ -26,22 +31,42 @@ def load_rooms_from_file():
         with open(ROOMS_FILE, "r") as f:
             rooms = json.load(f)
     except FileNotFoundError:
-        rooms = {}  # If the file doesn't exist, start with an empty dictionary
+        rooms = {}
 
 load_rooms_from_file()
-
 
 def generate_unique_code(length):
     while True:
         code = ""
         for _ in range(length):
             code += random.choice(ascii_uppercase)
-        
         if code not in rooms:
             break
     return code
 
-# Routes för vanliga webbsidor
+def bot_interaction(room, user_message=None):
+    """Bot interacts if there is only one person in the room."""
+    if rooms[room]["members"] == 1:
+        if user_message:
+            # Generate a response to the user's message
+            messages = [
+                {"role": "user", "content": user_message}
+            ]
+            completion = bot_client.chat.completions.create(
+                model="deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+                messages=messages,
+                max_tokens=500,
+            )
+            bot_response = completion.choices[0].message.content
+        else:
+            # Send a greeting if no user message is provided
+            bot_response = "Hello! I'm your chat companion. What would you like to talk about?"
+
+        # Send the bot's response to the room
+        send({"name": "Bot", "message": bot_response}, to=room)
+        rooms[room]["messages"].append({"name": "Bot", "message": bot_response})
+
+# Routes
 @app.route('/')
 def index():
     return render_template('Index.html')
@@ -82,7 +107,7 @@ def home():
         if create != False:
             room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": [], "subject": subject, "creator": name}
-            save_rooms_to_file()  # Save rooms to file after creating a new room
+            save_rooms_to_file()
         elif code not in rooms:
             return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject)
 
@@ -92,7 +117,7 @@ def home():
         return redirect(url_for("room"))
 
     return render_template("home.html")
-    
+
 @app.route("/room")
 def room():
     room = session.get("room")
@@ -104,7 +129,6 @@ def room():
 
     return render_template("room.html", code=room, messages=rooms[room]["messages"], name=name, subject=subject)
 
-
 @socketio.on("message")
 def message(data):
     room = session.get("room")
@@ -112,19 +136,21 @@ def message(data):
         return
     content = {
         "name": session.get("name"),
-        "subject": session.get("subject"),  # Lägg till subject
+        "subject": session.get("subject"),
         "message": data["data"]
     }
     send(content, to=room)
     rooms[room]["messages"].append(content)
     print(f"{session.get('name')} (Subject: {session.get('subject')}) said: {data['data']}")
 
+    # Check if the bot should interact
+    bot_interaction(room, user_message=data["data"])
 
 @socketio.on("connect")
 def connect(auth):
     room = session.get("room")
     name = session.get("name")
-    subject = session.get("subject")  # Tillagt
+    subject = session.get("subject")
 
     if not room or not name:
         return
@@ -132,13 +158,15 @@ def connect(auth):
         leave_room(room)
         return
     join_room(room)
-    send({"name": name, "subject": subject, "message": "has entered the room"}, to=room)  # subject tillagt
+    send({"name": name, "subject": subject, "message": "has entered the room"}, to=room)
     rooms[room]["members"] += 1
-    print(F"{name} (Subject: {subject}) joined room {room}")  # subject tillagt
+    print(f"{name} (Subject: {subject}) joined room {room}")
+
+    # Check if the bot should interact
+    bot_interaction(room)
 
 @app.route("/show_rooms")
 def show_rooms():
-    # Load rooms from file to ensure we have the latest data
     load_rooms_from_file()
     return render_template("show_rooms.html", rooms=rooms)
 
@@ -149,14 +177,11 @@ def disconnect():
     leave_room(room)
 
     if room in rooms:
-        rooms[room]["members"] -=1
-        if rooms[room]["members"] <=0:
+        rooms[room]["members"] -= 1
+        if rooms[room]["members"] <= 0:
             del rooms[room]
     send({"name": name, "message": "has left the room"}, to=room)
-    print(F"{name} has left the room {room}")
-
-
+    print(f"{name} has left the room {room}")
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
-
