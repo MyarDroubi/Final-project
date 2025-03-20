@@ -124,7 +124,7 @@ def load_logged_in_user():
         g.user = session['user_id']
 
 # Routes
-@app.route("/inloggning", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def inloggning():
     if request.method == "POST":
         email = request.form.get("email")
@@ -154,19 +154,18 @@ def inloggning():
 
     return render_template("Inloggning.html")
 
-@app.route('/')
+@app.route('/index')
 def index():
-    """
     if "user_id" not in session:
         flash("Vänligen logga in för att komma åt denna sida.", "error")
-        return redirect(url_for("inloggning"))"""
+        return redirect(url_for("inloggning"))
     return render_template('Index.html')
 
 @app.route('/om_oss')
 def om_oss():
-    """if "user_id" not in session:
+    if "user_id" not in session:
         flash("Vänligen logga in för att komma åt denna sida.", "error")
-        return redirect(url_for("inloggning"))"""
+        return redirect(url_for("inloggning"))
     return render_template('Om_oss.html')
 
 
@@ -206,10 +205,9 @@ def logout():
 
 @app.route("/home", methods=["POST", "GET"])
 def home():
-    """
     if "user_id" not in session:
         flash("Vänligen logga in för att komma åt denna sida.", "error")
-        return redirect(url_for("inloggning"))"""
+        return redirect(url_for("inloggning"))
 
     if request.method == "POST":
         name = request.form.get("name")
