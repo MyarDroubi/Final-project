@@ -174,19 +174,18 @@ def om_oss():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
-        name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
 
-        if not name or not email or not password:
-            flash("Namn, e-post och lösenord krävs!", "error")
+        if  not email or not password:
+            flash("e-post och lösenord krävs!", "error")
             return redirect(url_for("signup"))
 
         hashed_password = generate_password_hash(password)
 
         try:
             db = get_db_connection()
-            db.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", (name, email, hashed_password))
+            db.execute("INSERT INTO users (email, password) VALUES (?, ?)", (email, hashed_password))
             db.commit()
             db.close()
             flash("Kontot har skapats! Vänligen logga in.", "success")
