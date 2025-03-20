@@ -297,4 +297,208 @@ h3 {
   color: darkgray;
 }
 
+/* Flash Messages */
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 
+.flash {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.flash.success {
+  background-color: #28a745;
+}
+
+.flash.error {
+  background-color: #dc3545;
+}
+
+/* Rooms tabell */
+.Active-Rooms {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Rooms tabell */
+.Active-Rooms h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.Active-Rooms table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.Active-Rooms th {
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+.Active-Rooms td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+.Active-Rooms tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.Active-Rooms p {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Registrering */
+
+.Signup-kroppen{
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.boxen {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.boxen h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.Registrering {
+  margin-bottom: 15px;
+  text-align: left;
+}
+.Registrering label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.Registrering input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.register-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.register-button:hover {
+  background-color: #218838;
+}
+.boxen p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+.boxen a {
+  color: #007bff;
+  text-decoration: none;
+}
+.boxen a:hover {
+  text-decoration: underline;
+}
+
+/* Inloggning */
+.Inloggning-kropp{
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.inloggning-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.inloggning-box h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.Inlogga {
+  margin-bottom: 15px;
+  text-align: left;
+}
+.Inlogga label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.Inlogga input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.Inlogg-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.Inlogg-button:hover {
+  background-color: #0056b3;
+}
+.inloggning-box p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+.inloggning-box a {
+  color: #007bff;
+  text-decoration: none;
+}
+.inloggning-box a:hover {
+  text-decoration: underline;
+}

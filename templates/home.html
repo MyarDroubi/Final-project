@@ -26,10 +26,30 @@
     </ul>
     {% endif %}
 
-    <div style="margin-top: 20px;">
-        <a href="{{ url_for('show_rooms') }}">
-            <button type="button">Show All Rooms</button>
-        </a>
+    <div class="Active-Rooms">
+        <h1>Active Rooms</h1>
+        {% if rooms %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Creator</th>
+                        <th>Subject</th>
+                        <th>Room Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room_code, room_data in rooms.items() %}
+                        <tr>
+                            <td>{{ room_data["creator"] }}</td>
+                            <td>{{ room_data["subject"] }}</td>
+                            <td>{{ room_code }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No active rooms available.</p>
+        {% endif %}
     </div>
 </form>
 

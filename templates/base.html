@@ -10,6 +10,18 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% if not hide_nav %}
     <nav class="navbar">
         <h1>Livechat</h1>
         <div class="menu">
@@ -17,18 +29,13 @@
             <a href="{{ url_for('home') }}">Livechat</a>
             <a href="{{ url_for('om_oss') }}">Om oss</a>
         </div>
-        <a href="{{ url_for('inloggning') }}" class="navbar-button">Logga in</a>
+        <a href="{{ url_for('logout') }}" class="navbar-button">Logga ut</a>
     </nav>
+    {% endif %}
 
     <div class="content">
         {% block content %}
         {% endblock %}
     </div>
-
-    <footer>
-        <p>&copy; 2024 Livechat. Alla rättigheter förbehållna.</p>
-    </footer>
 </body>
 </html>
-
-Goooggaga
