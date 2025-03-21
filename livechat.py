@@ -182,7 +182,7 @@ def home():
 
         # Validate name for all actions
         if not name.strip():
-            return render_template("home.html", error="Please enter your name!", code=code, subject=subject, rooms=rooms)
+            return render_template("home.html", error="Please enter your name!", code=code, name=name, rooms=rooms)
 
         # Handle "Create Room" action
         if create_action:
@@ -201,7 +201,7 @@ def home():
         # Handle "Join Room" action
         elif join_action:
             if not code:
-                return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject=subject, rooms=rooms)
+                return render_template("home.html", error="Please enter a room Code", code=code, name=name, rooms=rooms)
             elif code not in rooms:
                 return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject, rooms=rooms)
             
