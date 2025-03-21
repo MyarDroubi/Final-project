@@ -182,7 +182,7 @@ def home():
 
         # Validate name for all actions
         if not name.strip():
-            return render_template("home.html", error="Please enter your name!", code=code, name=name, subject=subject, rooms=rooms)
+            return render_template("home.html", error="Please enter your name!", code=code, subject=subject, rooms=rooms)
 
         # Handle "Create Room" action
         if create_action:
