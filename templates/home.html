@@ -1,35 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<form method="post">
-    <h1>Create room</h1>
-    <div>
-        <label>Name:</label>
-        <input type="text" placeholder="Pick a name!" name="name" value="{{name}}"/>
-        <br>
-        <br>
-        <label>Subject:</label>
-        <input type="text" placeholder="Pick a Subject!" name="subject" required value="{{subject}}"/>
-        <br>
-        <br>
-        <button type="submit" name="create" class="create-btn">Create a Room</button>
+<div class="form-container">
+    <!-- Create Room Form -->
+    <div class="form-section">
+        <h1>Create Room</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label>Your Name:</label>
+                <input type="text" placeholder="Pick a name!" name="name" required value="{{ name }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Subject:</label>
+                <input type="text" placeholder="Pick a Subject!" name="subject" required value="{{ subject }}">
+            </div>
+            
+            <button type="submit" name="create" class="create-btn">Create a Room</button>
+        </form>
     </div>
-    <h1>Join room</h1>
-    <label>Room code:</label>
-    <div class="join">
-        <input type="text" placeholder="Room code" name="code" value="{{code}}"/>
-        <button type="submit" name="join">Join a Room</button>
+
+    <!-- Join Room Form -->
+    <div class="form-section">
+        <h1>Join Room</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label>Your Name:</label>
+                <input type="text" placeholder="Pick a name!" name="name" required value="{{ name }}">
+            </div>
+
+            <div class="form-group">
+                <label>Room Code:</label>
+                <input type="text" placeholder="Room code" name="code" required value="{{ code }}">
+            </div>
+            
+            <button type="submit" name="join">Join a Room</button>
+        </form>
     </div>
+
+    <!-- Error Messages -->
     {% if error %}
-    <ul>
-        <li>{{error}}</li>
-    </ul>
+    <div class="error-message">
+        {{ error }}
+    </div>
     {% endif %}
 
-    <div class="Active-Rooms">
+    <!-- Active Rooms -->
+    <div class="active-rooms">
         <h1>Active Rooms</h1>
         {% if rooms %}
-            <table border="1">
+            <table>
                 <thead>
                     <tr>
                         <th>Creator</th>
@@ -48,11 +68,9 @@
                 </tbody>
             </table>
         {% else %}
-            <p>No active rooms available.</p>
+            <p class="no-rooms">No active rooms available.</p>
         {% endif %}
     </div>
-</form>
-
-<!-- Visa alla aktiva rum -->
+</div>
 
 {% endblock %}
