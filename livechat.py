@@ -177,31 +177,41 @@ def home():
         name = request.form.get("name")
         code = request.form.get("code")
         subject = request.form.get("subject")
-        join = request.form.get("join", False)
-        create = request.form.get("create", False)
+        join_action = 'join' in request.form  # Check if "Join" button was clicked
+        create_action = 'create' in request.form  # Check if "Create" button was clicked
 
-        if create and not subject.strip():
-            return render_template("home.html", error="Please enter a Subject!", code=code, name=name, subject=subject, rooms=rooms)
+        # Validate name for all actions
+        if not name.strip():
+            return render_template("home.html", error="Please enter your name!", code=code, name=name, subject=subject, rooms=rooms)
 
-        if join != False and not code:
-            return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject=subject, rooms=rooms)
-
-        room = code
-        if create != False:
+        # Handle "Create Room" action
+        if create_action:
+            if not subject.strip():
+                return render_template("home.html", error="Please enter a Subject!", code=code, name=name, subject=subject, rooms=rooms)
+            
+            # Generate a new room code
             room = generate_unique_code(4)
             rooms[room] = {"members": 0, "messages": [], "subject": subject, "creator": name}
             save_rooms_to_file()
-        elif code not in rooms:
-            return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject, rooms=rooms)
-        else:
-            # Hämta ämnet från det befintliga rummet när man ansluter
-            subject = rooms[code]["subject"]
+            session["room"] = room
+            session["name"] = name
+            session["subject"] = subject
+            return redirect(url_for("room"))
 
-        session["room"] = room
-        session["name"] = name
-        session["subject"] = subject  # Spara ämnet i sessionen även när man ansluter
-        return redirect(url_for("room"))
+        # Handle "Join Room" action
+        elif join_action:
+            if not code:
+                return render_template("home.html", error="Please enter a room Code", code=code, name=name, subject=subject, rooms=rooms)
+            elif code not in rooms:
+                return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject, rooms=rooms)
+            
+            # Join existing room
+            session["room"] = code
+            session["name"] = name
+            session["subject"] = rooms[code]["subject"]  # Inherit the room's subject
+            return redirect(url_for("room"))
 
+    # Handle GET requests or invalid actions
     return render_template("home.html", rooms=rooms)
 
 @app.route("/room")
