@@ -123,7 +123,7 @@ def om_oss():
 
 @app.route("/index")
 def index():
-    # Debug: Print session data to verify it's set correctly
+  
     print("Session data:", session)
 
     # Check if the user is logged in
