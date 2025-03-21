@@ -119,7 +119,7 @@ def inloggning():
 
 @app.route('/om_oss')
 def om_oss():
-    return render_template('Om_oss.html')
+    return render_template('om_oss.html')
 
 @app.route("/index")
 def index():
