@@ -139,6 +139,7 @@ def index():
         print(f"Error rendering template: {e}")
         return "An error occurred while rendering the page.", 500
 
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -167,6 +168,24 @@ def logout():
     flash("Du har loggat ut.", "success")
     return redirect(url_for("inloggning"))
 
+@socketio.on("disconnect")
+def handle_disconnect():
+    room = session.get("room")
+    name = session.get("name")
+    
+    if room in rooms:
+        rooms[room]["members"] -= 1
+        
+        # Remove room if empty
+        if rooms[room]["members"] <= 0:
+            del rooms[room]
+            save_rooms_to_file()
+            
+        send({"name": name, "message": "has left the room"}, to=room)
+        
+    # Emit event to refresh rooms list for all clients
+    socketio.emit("rooms_updated", broadcast=True)
+    
 @app.route("/home", methods=["POST", "GET"])
 def home():
     if "user_id" not in session:
