@@ -203,7 +203,7 @@ def home():
             if not code:
                 return render_template("home.html", error="Please enter a room Code", code=code, name=name, rooms=rooms)
             elif code not in rooms:
-                return render_template("home.html", error="Room does not exist", code=code, name=name, subject=subject, rooms=rooms)
+                return render_template("home.html", error="Room does not exist", code=code, name=name, rooms=rooms)
             
             # Join existing room
             session["room"] = code
