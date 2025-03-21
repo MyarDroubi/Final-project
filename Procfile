@@ -1,2 +1,2 @@
-web: gunicorn -w 4 -b 0.0.0.0:8000 livechat:app
+web: gunicorn -k eventlet -w 1 livechat:app
   

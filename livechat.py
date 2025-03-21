@@ -13,6 +13,8 @@ from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
+socketio = SocketIO(app,async_mode="eventlet")
+
 app.config["SECRET_KEY"] = "THISISACODE"
 socketio = SocketIO(app)
 
@@ -228,4 +230,8 @@ def connect(auth):
         bot_interaction(room)
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    import eventlet
+    import eventlet.wsgi
+    eventlet.monkey_patch()
+
+    socketio.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
